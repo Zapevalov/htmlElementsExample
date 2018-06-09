@@ -19,12 +19,12 @@ public class SmthTest {
         ChromeDriverManager.getInstance().version("2.38").setup();
         this.driver = new ChromeDriver();
         this.factory = new WebPageFactory();
+        factory.listener(new AllureListener());
 
     }
 
     @Test
     void test() {
-        factory.listener(new AllureListener());
         SearchPage page = factory.get(driver, SearchPage.class);
         page.go();
         page.searchForm().waitUntil(displayed()).input().click();
