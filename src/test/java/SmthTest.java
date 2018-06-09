@@ -1,5 +1,6 @@
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.qameta.htmlelements.WebPageFactory;
+import listener.AllureListener;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeTest;
@@ -7,6 +8,7 @@ import org.testng.annotations.Test;
 import page.SearchPage;
 
 import static io.qameta.htmlelements.matcher.DisplayedMatcher.displayed;
+import static io.qameta.htmlelements.matcher.HasTextMatcher.hasText;
 
 public class SmthTest {
     private WebPageFactory factory;
@@ -22,10 +24,12 @@ public class SmthTest {
 
     @Test
     void test() {
+        factory.listener(new AllureListener());
         SearchPage page = factory.get(driver, SearchPage.class);
         page.go();
         page.searchForm().waitUntil(displayed()).input().click();
         page.searchForm().waitUntil(displayed()).input().sendKeys("абракадабра");
+        page.searchForm().button().should(hasText("Найти"));
         page.searchForm().waitUntil(displayed()).input().click();
     }
 }
